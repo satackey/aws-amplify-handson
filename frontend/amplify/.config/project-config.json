@@ -1,0 +1,17 @@
+{
+    "projectName": "aws-amplify-handson",
+    "version": "3.0",
+    "frontend": "javascript",
+    "javascript": {
+        "framework": "react",
+        "config": {
+            "SourceDir": "src",
+            "DistributionDir": "build",
+            "BuildCommand": "docker-compose -f ../docker-compose.yml run frontend_dev yarn build",
+            "StartCommand": "docker-compose -f ../docker-compose.yml up"
+        }
+    },
+    "providers": [
+        "awscloudformation"
+    ]
+}
