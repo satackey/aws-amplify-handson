@@ -10,6 +10,11 @@
             "StackName": "amplify-aws-amplify-handson-amplifyenv-184549",
             "StackId": "arn:aws:cloudformation:ap-northeast-1:511877299712:stack/amplify-aws-amplify-handson-amplifyenv-184549/6c218a80-69c6-11ea-a7f5-0e36924addac",
             "AmplifyAppId": "d3lw4m1jgzjtwc"
+        },
+        "categories": {
+            "auth": {
+                "awsamplifyhandsona39e39c2": {}
+            }
         }
     }
 }

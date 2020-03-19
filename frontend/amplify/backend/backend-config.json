@@ -1,1 +1,10 @@
-{}
+{
+	"auth": {
+		"awsamplifyhandsona39e39c2": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	}
+}
