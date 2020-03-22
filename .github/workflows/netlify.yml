@@ -47,9 +47,8 @@ jobs:
     #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     #     AWS_REGION: ap-northeast-1
 
-    - name: Install dependencies
+    - name: Install CI dependencies
       run: yarn install --frozen-lockfile
-      working-directory: frontend
 
     - name: Configure Amplify
       env:
@@ -58,6 +57,10 @@ jobs:
         AWS_REGION: ap-northeast-1
       run: |
         yarn amplify init --yes --envName ${{ steps.extract.outputs.amplify-env }}
+
+    - name: Install frontend dependencies
+      run: yarn install --frozen-lockfile
+      working-directory: frontend
 
     # - name: Extract aws-exports.js
     #   run: echo '${{ secrets.AWS_EXPORTS }}' > frontend/src/aws-exports.js
