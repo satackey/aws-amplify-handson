@@ -27,32 +27,37 @@ jobs:
       run: |
         AMPLIFY_ENV="$(git symbolic-ref --short HEAD)"
         if [ "$AMPLIFY_ENV" = "master" ];then
-          AMPLIFY_ENV="prod"
+          AMPLIFY_ENV="amplifyenv"
         fi
 
         echo "##[set-output name=amplify-env;]$AMPLIFY_ENV"
-
-    - name: Echo extracted
-      run: echo "${{ steps.extract.outputs.amplify-env }}"
 
     - name: Setup node.js
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
 
-    - name: Configure Amplify
-      uses: ambientlight/amplify-cli-action@0.2.0
-      with:
-        amplify_command: configure
-        amplify_env: amplifyenv
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ap-northeast-1
+    # - name: Configure Amplify
+    #   uses: ambientlight/amplify-cli-action@0.2.0
+    #   with:
+    #     amplify_command: configure
+    #     amplify_env: amplifyenv
+    #   env:
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     AWS_REGION: ap-northeast-1
 
     - name: Install dependencies
       run: yarn install --frozen-lockfile
       working-directory: frontend
+
+    - name: Configure Amplify
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ap-northeast-1
+      run: |
+        yarn amplify init --yes --envName ${{ steps.extract.outputs.amplify-env }}
 
     # - name: Extract aws-exports.js
     #   run: echo '${{ secrets.AWS_EXPORTS }}' > frontend/src/aws-exports.js
