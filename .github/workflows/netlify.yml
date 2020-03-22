@@ -4,12 +4,13 @@ name: Build & Deploy to Netlify
 
 on:
   push:
-    paths:
+    # paths:
         # frontend ディレクトリとgit直下のファイルが変更された時に実行する
-        - 'frontend/**'
+        - frontend/**
         - '*'
-        # Workflowが変更された時も実行する
-        - '.github/workflows/netlify.yml'
+        # Workflow/actionが変更された時も実行する
+        - .github/workflows/netlify.yml
+        - .github/actions/configure-amplify/**
 
   pull_request:
     types: [opened, synchronize]
@@ -37,33 +38,26 @@ jobs:
       with:
         node-version: 12.x
 
-    # - name: Configure Amplify
-    #   uses: ambientlight/amplify-cli-action@0.2.0
-    #   with:
-    #     amplify_command: configure
-    #     amplify_env: amplifyenv
-    #   env:
-    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     AWS_REGION: ap-northeast-1
+    - name: Install config-amplify action dependencies
+      working-directory: .github/actions/configure-amplify
+      run: yarn install --frozen-lockfile
+
+    - name: Configure Amplify using action
+      uses: ./.github/actions/configure-amplify
+      with:
+        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        region: ap-northeast-1
+        project-name: aws-amplify-handson
+        app-id: ${{ secrets.AMPLIFY_APP_ID }}
+        env-name: ${{ steps.extract.outputs.amplify-env }}
 
     - name: Install CI dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Configure Amplify
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ap-northeast-1
-      run: |
-        yarn amplify init --yes --envName ${{ steps.extract.outputs.amplify-env }}
-
     - name: Install frontend dependencies
       run: yarn install --frozen-lockfile
       working-directory: frontend
-
-    # - name: Extract aws-exports.js
-    #   run: echo '${{ secrets.AWS_EXPORTS }}' > frontend/src/aws-exports.js
 
     # - name: Run test
     #   run: yarn test
