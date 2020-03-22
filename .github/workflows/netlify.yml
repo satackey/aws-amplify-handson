@@ -40,9 +40,6 @@ jobs:
       with:
         node-version: 12.x
 
-    - name: Create amplify config dir
-      run: mkdir -p amplify/.config
-
     - name: Configure Amplify
       uses: ambientlight/amplify-cli-action@0.2.0
       with:
