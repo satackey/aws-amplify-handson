@@ -5,13 +5,13 @@ name: Build & Deploy to Netlify
 on:
   push:
     paths:
-        # frontend ディレクトリとgit直下のファイルが変更された時に実行する
-        - frontend/**
-        - '*'
-        # Workflow/actionが変更された時も実行する
-        - .github/workflows/netlify.yml
-        - .github/actions/configure-amplify/**
-        - .github/actions/extract/**
+    # frontend ディレクトリとgit直下のファイルが変更された時に実行する
+    - frontend/**
+    - '*'
+    # Workflow/actionが変更された時も実行する
+    - .github/workflows/netlify.yml
+    - .github/actions/configure-amplify/**
+    - .github/actions/extract/**
 
   pull_request:
 

@@ -34,7 +34,7 @@ const main = async () => {
     amplifyEnv = 'amplifyenv'
   }
 
-  core.setOutput('amplifyenv', amplifyEnv)
+  core.setOutput('amplify-env', amplifyEnv)
 }
 
 main().catch(e => {
