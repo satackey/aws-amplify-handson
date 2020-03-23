@@ -22,6 +22,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    # https://qiita.com/ngmr_mo/items/0576bfcea8c4487a6b47
+    - name: Cache node_modules
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/yarn
+        key: yarn-cache-${{ github.head_ref }}
+        restore-keys: |
+          yarn-cache-
+
     - name: Install extract action dependencies
       working-directory: .github/actions/extract
       run: yarn install --frozen-lockfile
