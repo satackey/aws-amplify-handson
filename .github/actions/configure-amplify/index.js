@@ -32,7 +32,7 @@ const main = async () => {
   const amplifyAppId = core.getInput('app-id', { required: true })
   const amplifyEnvName = core.getInput('env-name', { required: true })
 
-  const installAmplifyCommand = 'npm install -g @aws-amplify/cli'
+  const installAmplifyCommand = 'yarn global add @aws-amplify/cli'
   core.startGroup(installAmplifyCommand)
   await execAsync(installAmplifyCommand)
   core.endGroup()
