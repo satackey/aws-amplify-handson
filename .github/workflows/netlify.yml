@@ -11,6 +11,7 @@ on:
         # Workflow/actionが変更された時も実行する
         - .github/workflows/netlify.yml
         - .github/actions/configure-amplify/**
+        - .github/actions/extract/**
 
   pull_request:
 
