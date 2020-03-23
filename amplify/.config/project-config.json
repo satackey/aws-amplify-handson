@@ -7,8 +7,8 @@
         "config": {
             "SourceDir": "frontend/src",
             "DistributionDir": "frontend/build",
-            "BuildCommand": "docker-compose -f ../docker-compose.yml run frontend_dev yarn build",
-            "StartCommand": "docker-compose -f ../docker-compose.yml up"
+            "BuildCommand": "docker-compose run frontend_dev yarn build",
+            "StartCommand": "docker-compose up"
         }
     },
     "providers": [
