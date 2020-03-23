@@ -28,9 +28,9 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.cache/yarn
-        key: yarn-cache-${{ github.head_ref }}
+        key: yarn-cache-dev1-${{ github.head_ref }}
         restore-keys: |
-          yarn-cache-
+          yarn-cache-dev1
 
     - name: Install extract action dependencies
       working-directory: .github/actions/extract

@@ -72,7 +72,7 @@ const main = async () => {
     ],
     {
       env: {
-        'PATH': envPath, // avoid `/usr/bin/env: 'node': No such file or directory`
+        // 'PATH': envPath, // avoid `/usr/bin/env: 'node': No such file or directory`
         'AWS_ACCESS_KEY_ID': awsAccessKeyId,
         'AWS_SECRET_ACCESS_KEY': awsSecretAccessKey,
         'AWS_REGION': awsRegion,
