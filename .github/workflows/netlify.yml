@@ -4,7 +4,7 @@ name: Build & Deploy to Netlify
 
 on:
   push:
-    # paths:
+    paths:
         # frontend ディレクトリとgit直下のファイルが変更された時に実行する
         - frontend/**
         - '*'
