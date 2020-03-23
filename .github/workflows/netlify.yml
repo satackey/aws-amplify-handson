@@ -13,7 +13,6 @@ on:
         - .github/actions/configure-amplify/**
 
   pull_request:
-    types: [opened, synchronize]
 
 jobs:
   build:
@@ -64,12 +63,21 @@ jobs:
       run: yarn build
       working-directory: frontend
 
+    - name: Output github.token only for PR
+      id: githubtoken
+      run: |
+        GITHUB_TOKEN=""
+        if [ "${{ github.event_name }}" = "pull_request" ];then
+          GITHUB_TOKEN="${{ github.token }}"
+        fi
+        echo "##[set-output name=tonotify]$GITHUB_TOKEN"
+
     - name: Deploy
       uses: nwtgck/actions-netlify@v1.0
       with:
         publish-dir: frontend/build
         production-branch: master
-        github-token: ${{ github.token }}
+        github-token: ${{ steps.githubtoken.outputs.tonotify }}
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
