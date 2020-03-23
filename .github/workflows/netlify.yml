@@ -23,7 +23,7 @@ jobs:
       uses: actions/checkout@v2
 
     # https://qiita.com/ngmr_mo/items/0576bfcea8c4487a6b47
-    - name: Cache node_modules
+    - name: Cache yarn
       uses: actions/cache@v1
       with:
         path: ~/.cache/yarn
