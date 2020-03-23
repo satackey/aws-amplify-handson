@@ -1,8 +1,30 @@
 const core = require('@actions/core')
-// const github = require('@actions/github')
 const exec = require('@actions/exec')
 
-;(async () => {
+const execAsync = async (command, args, options) => {
+  let stdout = ''
+  let stderr = ''
+
+  const exit = await exec.exec(command, args, {
+    listeners: {
+      stdout: data => {
+        stdout += data.toString()
+      },
+      stderr(data) {
+        stdout += data.toString()
+      },
+    },
+    ...options,
+  })
+
+  return {
+    exit,
+    stdout,
+    stderr,
+  }
+}
+
+const main = async () => {
   const awsAccessKeyId = core.getInput('access-key-id', { required: true })
   const awsSecretAccessKey = core.getInput('secret-access-key', { required: true })
   const awsRegion = core.getInput('region', { required: true })
@@ -10,39 +32,12 @@ const exec = require('@actions/exec')
   const amplifyAppId = core.getInput('app-id', { required: true })
   const amplifyEnvName = core.getInput('env-name', { required: true })
 
-  core.startGroup('Install Amplify CLI')
-  await exec.exec('npm i -g @aws-amplify/cli')
-  // await exec.exec('yarn global bin')
-  let nodeGlobalBin = ''
-  await exec.exec('npm root -g', undefined, {
-    listeners: {
-      stdout: data => {
-        nodeGlobalBin += data.toString().replace('\n', '')
-      }
-    }
-  })
-  console.log(JSON.stringify({ nodeGlobalBin }))
-  core.addPath(nodeGlobalBin)
+  const installAmplifyCommand = 'npm install -g @aws-amplify/cli'
+  core.startGroup(installAmplifyCommand)
+  await execAsync(installAmplifyCommand)
   core.endGroup()
 
-  let envPath = ''
-  await exec.exec('sh -c "echo $PATH"', undefined, {
-    listeners: {
-      stdout: data => {
-        envPath += data.toString().replace('\n', '')
-      }
-    }
-  })
-  console.log(envPath)
-  await exec.exec('whereis node')
-
   core.startGroup('amplify pull')
-  // const reactConfig = {
-  //   SourceDir: 'frontend/src',
-  //   DistributionDir: 'frontend/build',
-  //   BuildCommand: 'docker-compose -f ../docker-compose.yml run frontend_dev yarn build',
-  //   StartCommand: 'docker-compose -f ../docker-compose.yml up',
-  // }
 
   const awsCloudFormationConfig = {
     configLevel: 'project',
@@ -80,6 +75,8 @@ const exec = require('@actions/exec')
     }
   )
   core.endGroup()
-})().catch(e => {
-  core.setFailed(e.message)
+}
+
+main().catch(e => {
+  core.setFailed(e.message || JSON.stringify(e))
 })

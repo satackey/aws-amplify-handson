@@ -22,24 +22,22 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Install extract action dependencies
+      working-directory: .github/actions/extract
+      run: yarn install --frozen-lockfile
+
+    - name: Install config-amplify action dependencies
+      working-directory: .github/actions/configure-amplify
+      run: yarn install --frozen-lockfile
+
     - name: Extract
       id: extract
-      run: |
-        AMPLIFY_ENV="$(git symbolic-ref --short HEAD)"
-        if [ "$AMPLIFY_ENV" = "master" ];then
-          AMPLIFY_ENV="amplifyenv"
-        fi
-
-        echo "##[set-output name=amplify-env;]$AMPLIFY_ENV"
+      uses: ./.github/actions/extract
 
     - name: Setup node.js
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-
-    - name: Install config-amplify action dependencies
-      working-directory: .github/actions/configure-amplify
-      run: yarn install --frozen-lockfile
 
     - name: Configure Amplify using action
       uses: ./.github/actions/configure-amplify
