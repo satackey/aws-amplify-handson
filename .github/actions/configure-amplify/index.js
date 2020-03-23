@@ -37,10 +37,9 @@ const main = async () => {
   await execAsync(installAmplifyCommand)
   core.endGroup()
 
-  const yarnBin = (await execAsync('yarn global bin')).stdout.replace('\n', '')
+  const yarnBin = (await execAsync('yarn global bin', undefined, { silent: true })).stdout.replace('\n', '')
   core.addPath(yarnBin)
-  const envPath = (await execAsync('sh -c "echo $PATH"')).stdout.replace('\n', '')
-  console.log(envPath)
+  const envPath = (await execAsync('sh -c "echo $PATH"', undefined, { silent: true })).stdout.replace('\n', '')
 
   core.startGroup('amplify pull')
 
@@ -72,7 +71,7 @@ const main = async () => {
     ],
     {
       env: {
-        // 'PATH': envPath, // avoid `/usr/bin/env: 'node': No such file or directory`
+        'PATH': envPath, // avoid `/usr/bin/env: 'node': No such file or directory`
         'AWS_ACCESS_KEY_ID': awsAccessKeyId,
         'AWS_SECRET_ACCESS_KEY': awsSecretAccessKey,
         'AWS_REGION': awsRegion,
