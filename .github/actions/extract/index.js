@@ -31,10 +31,10 @@ const main = async () => {
   // refs/heads/master → master
   let amplifyEnv = ref.split('/').slice(-1)[0]
   if (ref.includes('master')){
-    amplifyEnv = 'amplify-env'
+    amplifyEnv = 'amplifyenv'
   }
 
-  core.setOutput('amplify-env', amplifyEnv)
+  core.setOutput('amplifyenv', amplifyEnv)
 }
 
 main().catch(e => {
