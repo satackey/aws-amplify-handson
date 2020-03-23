@@ -1,5 +1,7 @@
 import React from 'react'
-import Amplify from 'aws-amplify'
+import Amplify from '@aws-amplify/core'
+// import '@aws-amplify/xr'
+
 import { withAuthenticator } from 'aws-amplify-react'
 
 import logo from './logo.svg'
