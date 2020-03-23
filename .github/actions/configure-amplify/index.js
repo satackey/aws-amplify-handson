@@ -37,6 +37,8 @@ const main = async () => {
   await execAsync(installAmplifyCommand)
   core.endGroup()
 
+  const yarnBin = (await execAsync('yarn global bin')).stdout.replace('\n', '')
+  core.addPath(yarnBin)
   const envPath = (await execAsync('sh -c "echo $PATH"')).stdout.replace('\n', '')
   console.log(envPath)
 
