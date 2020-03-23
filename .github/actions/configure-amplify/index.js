@@ -37,6 +37,8 @@ const main = async () => {
   await execAsync(installAmplifyCommand)
   core.endGroup()
 
+  const { stdout: envPath } = await exec.exec('sh', ['-c', 'echo $PATH'])
+
   core.startGroup('amplify pull')
 
   const awsCloudFormationConfig = {

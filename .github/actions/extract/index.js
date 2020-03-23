@@ -27,7 +27,9 @@ const execAsync = async (command, args, options) => {
 const main = async () => {
   const ref = core.getInput('ref', { required: true })
   console.log(ref)
-  let amplifyEnv = ref
+
+  // refs/heads/master → master
+  let amplifyEnv = ref.split('/').slice(-1)[0]
   if (ref.includes('master')){
     amplifyEnv = 'amplify-env'
   }
