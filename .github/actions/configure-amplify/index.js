@@ -37,7 +37,7 @@ const main = async () => {
   await execAsync(installAmplifyCommand)
   core.endGroup()
 
-  const envPath = (await execAsync(`sh -c 'echo "$PATH"'`)).stdout.replace('\n', '')
+  const envPath = (await execAsync('sh -c "echo $PATH"')).stdout.replace('\n', '')
   console.log(envPath)
 
   core.startGroup('amplify pull')
