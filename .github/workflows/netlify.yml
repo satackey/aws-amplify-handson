@@ -23,6 +23,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Setup node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
     # https://qiita.com/ngmr_mo/items/0576bfcea8c4487a6b47
     - name: Restore yarn cache
       uses: actions/cache@v1
@@ -43,11 +48,6 @@ jobs:
     - name: Extract
       id: extract
       uses: ./.github/actions/extract
-
-    - name: Setup node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
 
     - name: Configure Amplify using action
       uses: ./.github/actions/configure-amplify
