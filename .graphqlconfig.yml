@@ -1,0 +1,12 @@
+projects:
+  amplapi:
+    schemaPath: frontend/src/graphql/schema.json
+    includes:
+      - frontend/src/graphql/**/*.ts
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: frontend/src/API.ts
+        docsFilePath: frontend/src/graphql
